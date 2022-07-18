@@ -1,0 +1,16 @@
+﻿@using BlazorEssentials.Models
+
+@code{
+    [Inject]
+    protected IStateManager AppState { get; set; }
+    [Inject]
+    protected IStorageManager Storage { get; set; }
+    [Inject]
+    protected ILocationService GeoLocation { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AppState.OnChange += StateHasChanged;
+    }
+}
