@@ -1,0 +1,68 @@
+﻿@inherits BlazorEssentials.Components.EssentialsBaseComponent
+
+@page "/testpage"
+
+<div>
+    <button @onclick="GetLocation">Get Location</button>
+    <br />
+    <button @onclick="GetLocationPersistent">Get Location Persistent</button>
+    <br />
+    <label>GeoLocation</label>
+    <br />
+    @if (location != null)
+    {
+        <label>Lat: @(location.Lat)</label>
+        <label>Lon: @(location.Lon)</label>
+    }
+    else
+    {
+        <label>Lat:</label>
+        <label>Lon:</label>
+    }
+
+    <br />
+
+    <label>Persistent GeoLocation</label>
+    <br />
+
+    @if (persistentLocation != null)
+    {
+        <label>Persistent Lat: @(persistentLocation.Lat)</label>
+        <label>Persistent Lon: @(persistentLocation.Lon)</label>
+    }
+    else
+    {
+        <label>Lat:</label>
+        <label>Lon:</label>
+    }
+    <br />
+</div>
+
+
+@code {
+
+    private BlazorEssentials.Models.GeoLocation location { get; set; } 
+    private BlazorEssentials.Models.GeoLocation persistentLocation { get; set; }
+
+    private async void GetLocation()
+    {
+        var location = await GeoLocation.GetLocationAsync();
+
+        AppState.SetStateItem("GeoLocation", location);
+    }
+
+    private async void GetLocationPersistent()
+    {
+        var location = await GeoLocation.GetLocationAsync();
+
+        AppState.SetPersistentStateItem("GeoLocation", location);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        location = AppState.GetStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation");
+        persistentLocation = AppState.GetPersistentStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation");
+    }
+}

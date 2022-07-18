@@ -7,6 +7,8 @@
     protected IStorageManager Storage { get; set; }
     [Inject]
     protected ILocationService GeoLocation { get; set; }
+    [Inject]
+    protected HttpClient Http { get; set; }
 
     protected override void OnInitialized()
     {

@@ -10,11 +10,13 @@ namespace BlazorEssentials.Extensions
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddBlazorEssentials(this IServiceCollection services)
+        public static IServiceCollection AddBlazorEssentials(this IServiceCollection services, string BaseURL = "")
         {
             services.AddScoped<IStateManager, StateManager>();
             services.AddScoped<IStorageManager, StorageManager>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<Interop>();
+            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(BaseURL) });
 
             return services;
         }

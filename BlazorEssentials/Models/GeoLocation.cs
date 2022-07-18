@@ -10,5 +10,11 @@ namespace BlazorEssentials.Models
     {
         public double Lat { get; set; }
         public double Lon { get; set; }
+
+        public GeoLocation()
+        {
+            Lat = 0; 
+            Lon = 0;
+        }
     }
 }
