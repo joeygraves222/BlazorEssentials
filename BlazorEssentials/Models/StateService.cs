@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorEssentials.Models
 {
-    public interface IStateManager
+    public interface IStateService
     {
         public T GetStateItem<T>(string key);
         public void SetStateItem<T>(string key, T value);
@@ -18,7 +18,7 @@ namespace BlazorEssentials.Models
         public event Action OnChangeFromOtherTab;
         public event Action RefreshPage;
     }
-    public class StateManager : IStateManager
+    public class StateService : IStateService
     {
         private static string StateKey = "{EC2E66F0-0148-4B75-A2B7-96C2FAD9F200}";
         private Dictionary<string, string> PersistentStateItems { get; set; }
@@ -32,7 +32,7 @@ namespace BlazorEssentials.Models
         private Interop interop { get; set; }
 
 
-        public StateManager(IJSRuntime js)
+        public StateService(IJSRuntime js)
         {
             JS = js;
             interop = new(js);

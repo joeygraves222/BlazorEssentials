@@ -141,7 +141,7 @@ namespace BlazorEssentials
             }
         }
 
-        public async void SubscribeToStorageEvent(DotNetObjectReference<IStateManager> objRef)
+        public async void SubscribeToStorageEvent(DotNetObjectReference<IStateService> objRef)
         {
             try
             {

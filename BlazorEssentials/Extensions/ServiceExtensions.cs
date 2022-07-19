@@ -10,9 +10,8 @@ namespace BlazorEssentials.Extensions
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddBlazorEssentials(this IServiceCollection services, string BaseURL = "")
+        public static IServiceCollection AddBlazorEssentials(this IServiceCollection services, string BaseURL)
         {
-            services.AddScoped<IStateManager, StateManager>();
             services.AddScoped<IStorageManager, StorageManager>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<Interop>();

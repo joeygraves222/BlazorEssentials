@@ -1,4 +1,4 @@
-﻿@inherits BlazorEssentials.Components.EssentialsBaseComponent
+﻿@inherits EssentialsTestBaseComponent
 
 @page "/testpage"
 
@@ -9,10 +9,10 @@
     <br />
     <label>GeoLocation</label>
     <br />
-    @if (location != null)
+    @if (AppState.Location != null)
     {
-        <label>Lat: @(location.Lat)</label>
-        <label>Lon: @(location.Lon)</label>
+        <label>Lat: @(AppState.Location.Lat)</label>
+        <label>Lon: @(AppState.Location.Lon)</label>
     }
     else
     {
@@ -25,10 +25,10 @@
     <label>Persistent GeoLocation</label>
     <br />
 
-    @if (persistentLocation != null)
+    @if (AppState.PersistentLocation != null)
     {
-        <label>Persistent Lat: @(persistentLocation.Lat)</label>
-        <label>Persistent Lon: @(persistentLocation.Lon)</label>
+        <label>Persistent Lat: @(AppState.PersistentLocation.Lat)</label>
+        <label>Persistent Lon: @(AppState.PersistentLocation.Lon)</label>
     }
     else
     {
@@ -41,35 +41,21 @@
 
 @code {
 
-    private BlazorEssentials.Models.GeoLocation location 
-    { 
-        get { return AppState.GetStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation"); } 
-        set { AppState.SetStateItem("GeoLocation", value); }
-    } 
-    private BlazorEssentials.Models.GeoLocation persistentLocation 
-    { 
-        get { return AppState.GetPersistentStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation"); } 
-        set { AppState.SetPersistentStateItem("GeoLocation", value); }
-    } 
+
 
     private async void GetLocation()
     {
-        var location = await GeoLocation.GetLocationAsync();
+        var location = await GeoLocationService.GetLocationAsync();
 
-        AppState.SetStateItem("GeoLocation", location);
+        AppState.Location = location;
     }
 
     private async void GetLocationPersistent()
     {
-        var location = await GeoLocation.GetLocationAsync();
+        var location = await GeoLocationService.GetLocationAsync();
 
-        AppState.SetPersistentStateItem("GeoLocation", location);
+        AppState.PersistentLocation = location;
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        StateHasChanged();
-    }
+    
 }
