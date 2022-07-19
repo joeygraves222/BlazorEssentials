@@ -41,8 +41,16 @@
 
 @code {
 
-    private BlazorEssentials.Models.GeoLocation location { get; set; } 
-    private BlazorEssentials.Models.GeoLocation persistentLocation { get; set; }
+    private BlazorEssentials.Models.GeoLocation location 
+    { 
+        get { return AppState.GetStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation"); } 
+        set { AppState.SetStateItem("GeoLocation", value); }
+    } 
+    private BlazorEssentials.Models.GeoLocation persistentLocation 
+    { 
+        get { return AppState.GetPersistentStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation"); } 
+        set { AppState.SetPersistentStateItem("GeoLocation", value); }
+    } 
 
     private async void GetLocation()
     {
@@ -62,7 +70,6 @@
     {
         await base.OnInitializedAsync();
 
-        location = AppState.GetStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation");
-        persistentLocation = AppState.GetPersistentStateItem<BlazorEssentials.Models.GeoLocation>("GeoLocation");
+        StateHasChanged();
     }
 }
