@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEssentials", "BlazorEssentials\BlazorEssentials.csproj", "{88E0AFA1-6609-4D3C-AF9E-885C77351F3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEssentials", "BlazorEssentials\BlazorEssentials.csproj", "{88E0AFA1-6609-4D3C-AF9E-885C77351F3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEssentials.Test", "BlazorEssentials.Test\BlazorEssentials.Test.csproj", "{B527E50C-E657-4BDE-810A-02458D692DAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEssentials.Test", "BlazorEssentials.Test\BlazorEssentials.Test.csproj", "{B527E50C-E657-4BDE-810A-02458D692DAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

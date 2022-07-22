@@ -34,6 +34,7 @@ namespace BlazorEssentials.Models
 
         public StateService(IJSRuntime js)
         {
+            Console.WriteLine("Got to State Service Constructor...");
             JS = js;
             interop = new(js);
             InitializeState();
@@ -82,7 +83,7 @@ namespace BlazorEssentials.Models
             OnChangeFromOtherTab?.Invoke();
         }
 
-        private async void InitializeState()
+        public async void InitializeState()
         {
             try
             {

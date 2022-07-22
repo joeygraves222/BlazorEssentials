@@ -11,4 +11,11 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazorEssentials("https://localhost:5000/api");
 builder.Services.AddScoped<StateManager>();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+var services = host.Services;
+
+var stateMan = services.GetService<StateManager>();
+stateMan.InitializeState();
+
+await host.RunAsync();
