@@ -14,7 +14,7 @@ Each of these features is defined in an interface and can be implemented however
 
 ## Implementing Each Feature
 
-First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateManager` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically).This base component looks like this:
+First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateService` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically).This base component looks like this:
 
 ```
 @using BlazorEssentials.Models
@@ -33,6 +33,8 @@ First it should be mentioned that it is recommended that every page and componen
     protected NavigationManager Nav { get; set; }
 }
 ```
+
+The best way to utilize this and any of your own services is to create your own base component and have that inherit this class. Then in your own class you provide your services and they will all be available. Your own base class is where you would want to put your own implementation of the StateService (More info on this below).
 
 ### Storage Manager
 This feature is very simple and you probably won't need to make your own implementation since LocalStorage and SessionStorage only have a few basic APIs.
@@ -158,3 +160,36 @@ The `AuthResult` class stores the time that the user was authenticated, as well 
 ```
 
 This will only render this link to create a new user if the current user has the permission key "Admin" on their AuthResult. This will not prevent the user from manually typing the route into the address bar and accessing the page that way, so it is always recommended that your backend always check for permissions before allowing users to perform sensitive actions, the front end is not secure enough to rely solely on for Authentication and Authorization.
+
+## Location Service
+This service provides an API to get the devices current location. This is dependent on the user granting permission to the app to access the location. This service has only a single method: `Task<GeoLocation> GetLocationAsync();`. It returns a `GeoLocation` object that contains the `Lat` and `Lon` values correlating to the user's geo coordinates. This service relies on the `Interop` class that registers and uses JSInterop functions. There is no need to include the JS file that it references, it is automatically referenced by the package and no further action is needed. This service will prompt the user for permission and await the response. You probably won't need to provide your own implementation of this service since it is so simple, but you can if you would like.
+
+## State Service
+This service will provide an interface for storing State variables and updating them.Behind the scenes this works as a Dictionary that holds all of the items and their keys. The best way to use this feature is to create your own class to handle the State and have it inherit from the provided class `StateService'. This class implements the `IStateService` interface and provides methods for updating the State values. In your own implementation you should provide each variable as a property and in each of the getters and setters you should call the `IStateService` methods `GetStateItem<T>(string key);` and `SetStateItem<T>(string key, T item);`. These methods will retrieve and update the data properly, and will fire the events to update the UI.
+
+Here is an example:
+```
+public class StateManager : StateService
+    {
+        public StateManager(IJSRuntime js) : base(js)
+        {
+        }
+
+        public GeoLocation Location
+        {
+            get { return GetStateItem<GeoLocation>("GeoLocation"); }
+            set { SetStateItem("GeoLocation", value); }
+        }
+
+        public GeoLocation PersistentLocation
+        {
+            get { return GetPersistentStateItem<GeoLocation>("GeoLocation"); }
+            set { SetPersistentStateItem("GeoLocation", value); }
+        }
+    }
+```
+Notice the class `StateManager` inherits `StateService` rather than implementing `IStateService`, this is because the logic to persist the State objects across browser sessions or across page reloads is already implemented in the class `StateService`. You can implement this yourself if you would like, but this class, `StateService` has done a pretty generic job of that which can easily be reused for almost any needs.
+
+The State Service has methods that will persist the State variables to the LocalStorage, and to the SessionStorage, these help because they allow your users to navigate away from the page without losing their progress. Since the State Service is registered as a Scoped Service it is alive for the duration of the request, and is also the same instance across all components. So you can easily pass data from page to page without the need for route parameters. There are still times when you might want to use route parameters, but you don't need them because you could always just store the parameters in a State object, and then retrieve the State object when the next page loads.
+
+To inject the default services into the Dependency Injection Container, call the method `builder.Services.AddBlazorEssentials("https://localhost:5000/api")` in the `Program.cs` file. This URL that is passed into the method sets the base URL on the `HttpClient`. This will provide the default services for `IStorageManager`, `ILocationService`, `Interop` (The JSInterop class for all things regarding Blazor Essentials), the `HttpClient` with the provided BaseURL, and the `IAuthService`. If you would like to manually implement any of these then don't call this method, and instead provide each of these manually in the `Program.cs` file. The StateService that you create should be added in the same place like this `builder.Services.AddScoped<StateManager>();` with your implementation in plcae of `StateManager`.
