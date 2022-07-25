@@ -25,12 +25,13 @@ namespace BlazorEssentials.Models
         /// </summary>
         /// <param name="key">The name or key of the operation to be performed</param>
         /// <returns>bool - true if user is authorized, false if they are not</returns>
-        Task<bool> Authorized(string key);
+        bool Authorized(string key);
         /// <summary>
         /// Retrieves the stored Auth Result
         /// </summary>
         /// <returns>object - The Auth Result provided to the "Authenticated" method</returns>
         Task<object> GetAuthResult();
+        public event Action OnAuthChange;
     }
 
     public class AuthService : IAuthService
@@ -38,14 +39,21 @@ namespace BlazorEssentials.Models
         private static string AuthenticationKey = "{0512E7A4-6E89-4C0A-8856-24C0B47A3686}";
         private readonly IStorageManager Storage;
         private readonly HttpClient Http;
-        private readonly IStateService State;
+
+        public event Action OnAuthChange;
+
         private AuthResult AuthDetails { get; set; }
 
-        public AuthService(IStorageManager storage, HttpClient http, IStateService state)
+        public AuthService(IStorageManager storage, HttpClient http)
         {
             Storage = storage;
             Http = http;
-            State = state;
+            InitializeService();
+        }
+
+        private void NotifyOnChange()
+        {
+            OnAuthChange?.Invoke();
         }
 
         private async Task InitializeService()
@@ -53,14 +61,17 @@ namespace BlazorEssentials.Models
             var existingAuth = await Storage.GetLocalAsync<AuthResult>(AuthenticationKey);
 
             AuthDetails = existingAuth;
+
+            NotifyOnChange();
         }
 
         public async Task Authenticated(object authResult)
         {
             AuthDetails = (AuthResult)authResult;
+            NotifyOnChange();
         }
 
-        public async Task<bool> Authorized(string key)
+        public bool Authorized(string key)
         {
             try
             {
@@ -70,16 +81,7 @@ namespace BlazorEssentials.Models
                 }
                 else
                 {
-                    await InitializeService();
-                    
-                    if (AuthDetails != null)
-                    {
-                        return AuthDetails.VerifyPermission(key);
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -90,6 +92,11 @@ namespace BlazorEssentials.Models
 
         public async Task<object> GetAuthResult()
         {
+            if (AuthDetails == null)
+            {
+                await InitializeService();
+            }
+            AuthDetails ??= new();
             return AuthDetails;
         }
 
@@ -105,16 +112,7 @@ namespace BlazorEssentials.Models
                     }
                     else
                     {
-                        InitializeService().RunSynchronously();
-
-                        if (AuthDetails != null)
-                        {
-                            return AuthDetails.Authenticated();
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
                 catch (Exception ex)
@@ -153,17 +151,36 @@ namespace BlazorEssentials.Models
             Permissions = perms;
         }
 
-        public void AddPermission(Permission perm)
+        public void SetPermission(Permission perm)
         {
             Permissions ??= new();
-            Permissions.Add(perm);
+            var existingPermission = Permissions.FirstOrDefault(p => p.Key == perm.Key);
+
+            if (existingPermission == null)
+            {
+                Permissions.Add(perm);
+            }
+            else
+            {
+                existingPermission.Authorized = perm.Authorized;
+            }
         }
 
-        public void AddPermission(string key, bool authorized)
+        public void SetPermission(string key, bool authorized)
         {
             Permissions ??= new();
-            Permissions.Add(new Permission() { Authorized = authorized, Key = key });
+            var existingPermission = Permissions.FirstOrDefault(p => p.Key == key);
+
+            if (existingPermission == null)
+            {
+                Permissions.Add(new Permission() { Authorized = authorized, Key = key});
+            }
+            else
+            {
+                existingPermission.Authorized = authorized;
+            }
         }
+
 
         public bool VerifyPermission(string key)
         {

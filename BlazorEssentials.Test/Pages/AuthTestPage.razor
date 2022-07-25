@@ -1,0 +1,167 @@
+﻿@inherits EssentialsTestBaseComponent
+@page "/auth-test-page"
+
+@if (Auth.Authorized(Constants.TestPermissionKey1))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey1'</h2>
+    <button @onclick="Deauthorize1" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey1'</h2>
+    <button @onclick="Authorize1" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey2))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey2'</h2>
+    <button @onclick="Deauthorize2" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey2'</h2>
+    <button @onclick="Authorize2" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey3))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey3'</h2>
+    <button @onclick="Deauthorize3" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey3'</h2>
+    <button @onclick="Authorize3" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey4))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey4'</h2>
+    <button @onclick="Deauthorize4" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey4'</h2>
+    <button @onclick="Authorize4" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey5))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey5'</h2>
+    <button @onclick="Deauthorize5" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey5'</h2>
+    <button @onclick="Authorize5" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey6))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey6'</h2>
+    <button @onclick="Deauthorize6" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey6'</h2>
+    <button @onclick="Authorize6" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@if (Auth.Authorized(Constants.TestPermissionKey7))
+{
+    <h2>User is authorized for '@Constants.TestPermissionKey7'</h2>
+    <button @onclick="Deauthorize7" class="btn btn-danger">De-Authorize</button>
+}
+else
+{
+    <h2>User is not authorized for '@Constants.TestPermissionKey7'</h2>
+    <button @onclick="Authorize7" class="btn btn-primary">Authorize</button>
+}
+
+<hr />
+
+@code {
+
+    private async void Authorize1()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey1, true);
+    }
+    private async void Deauthorize1()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey1, false);
+    }
+    private async void Authorize2()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey2, true);
+    }
+    private async void Deauthorize2()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey2, false);
+    }
+    private async void Authorize3()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey3, true);
+    }
+    private async void Deauthorize3()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey3, false);
+    }
+    private async void Authorize4()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey4, true);
+    }
+    private async void Deauthorize4()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey4, false);
+    }
+    private async void Authorize5()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey5, true);
+    }
+    private async void Deauthorize5()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey5, false);
+    }
+    private async void Authorize6()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey6, true);
+    }
+    private async void Deauthorize6()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey6, false);
+    }
+    private async void Authorize7()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey7, true);
+    }
+    private async void Deauthorize7()
+    {
+        AuthResult authresult = (AuthResult)await Auth.GetAuthResult();
+        authresult.SetPermission(Constants.TestPermissionKey7, false);
+    }
+}

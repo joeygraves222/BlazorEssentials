@@ -39,7 +39,7 @@ namespace BlazorEssentials.Models
             interop = new(js);
             InitializeState();
 
-            var dotnetRef = DotNetObjectReference.Create(this);
+            //var dotnetRef = DotNetObjectReference.Create(this);
         }
 
 

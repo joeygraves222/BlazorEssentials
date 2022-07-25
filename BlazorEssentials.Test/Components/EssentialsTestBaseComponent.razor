@@ -8,5 +8,6 @@
     {
         base.OnInitialized();
         AppState.OnChange += StateHasChanged;
+        Auth.OnAuthChange += StateHasChanged;
     }
 }

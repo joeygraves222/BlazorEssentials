@@ -1,0 +1,29 @@
+﻿@inherits EssentialsTestBaseComponent
+@page "/storage-test-page"
+
+<div class="container">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Enter Text To Store</label>
+            <input class="form-control" @bind="KeyToStore" />
+            <textarea class="form-control" @bind="TextToStore" rows="3"></textarea>
+            <button class="btn btn-block btn-info" @onclick="AddToLocal">Add To Local Storage</button>
+            <button class="btn btn-block btn-warning" @onclick="AddToSession">Add To Session Storage</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string KeyToStore { get; set; }
+    private string TextToStore { get; set; }
+
+    private async void AddToLocal()
+    {
+        await Storage.SetLocalAsync(KeyToStore, TextToStore);
+    }
+
+    private async void AddToSession()
+    {
+        await Storage.SetSessionAsync(KeyToStore, TextToStore);
+    }
+}
