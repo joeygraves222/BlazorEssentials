@@ -10,9 +10,27 @@ namespace BlazorEssentials.Models
 {
     public interface IAuthService
     {
+        /// <summary>
+        /// Use this to check if the current user is authenticated
+        /// </summary>
         bool IsAuthenticated { get; }
-        Task Authenticated(AuthResult auth);
+        /// <summary>
+        /// Call this method after authenticating with your backend
+        /// </summary>
+        /// <param name="authResult">The authentication result from the backend service</param>
+        /// <returns></returns>
+        Task Authenticated(object authResult);
+        /// <summary>
+        /// Determines whether the user is authorized to perform a given action
+        /// </summary>
+        /// <param name="key">The name or key of the operation to be performed</param>
+        /// <returns>bool - true if user is authorized, false if they are not</returns>
         Task<bool> Authorized(string key);
+        /// <summary>
+        /// Retrieves the stored Auth Result
+        /// </summary>
+        /// <returns>object - The Auth Result provided to the "Authenticated" method</returns>
+        Task<object> GetAuthResult();
     }
 
     public class AuthService : IAuthService
@@ -37,9 +55,9 @@ namespace BlazorEssentials.Models
             AuthDetails = existingAuth;
         }
 
-        public async Task Authenticated(AuthResult auth)
+        public async Task Authenticated(object authResult)
         {
-            AuthDetails = auth;
+            AuthDetails = (AuthResult)authResult;
         }
 
         public async Task<bool> Authorized(string key)
@@ -68,6 +86,11 @@ namespace BlazorEssentials.Models
             {
                 return false;
             }
+        }
+
+        public async Task<object> GetAuthResult()
+        {
+            return AuthDetails;
         }
 
         public bool IsAuthenticated
@@ -107,6 +130,7 @@ namespace BlazorEssentials.Models
         public DateTime TimeAuthenticated { get; set; }
         public DateTime? TimeExpires { get; set; }
         public TimeSpan? Duration { get; set; }
+        public string Token { get; set; }
 
         public bool Authenticated()
         {
