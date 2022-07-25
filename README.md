@@ -10,7 +10,11 @@ Tha latest version of this package includes the following features:
 - Geolocation
 - Basic Authentication and Authorization
 
-Each of these features is defined in an interface and can be implemented however you would like, however a simple implementation is also provided that takes care of many basic functions. This base component looks like this:
+Each of these features is defined in an interface and can be implemented however you would like, however a simple implementation is also provided that takes care of many basic functions. 
+
+## Implementing Each Feature
+
+First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateManager` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically).This base component looks like this:
 
 ```
 @using BlazorEssentials.Models
@@ -29,10 +33,6 @@ Each of these features is defined in an interface and can be implemented however
     protected NavigationManager Nav { get; set; }
 }
 ```
-
-## Implementing Each Feature
-
-First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateManager` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically).
 
 ### Storage Manager
 This feature is very simple and you probably won't need to make your own implementation since LocalStorage and SessionStorage only have a few basic APIs.
