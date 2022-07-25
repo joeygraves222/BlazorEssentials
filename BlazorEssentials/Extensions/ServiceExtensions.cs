@@ -16,8 +16,11 @@ namespace BlazorEssentials.Extensions
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<Interop>();
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(BaseURL) });
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
+
+        
     }
 }

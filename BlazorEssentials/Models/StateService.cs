@@ -116,6 +116,8 @@ namespace BlazorEssentials.Models
                 PersistentStateItems = new();
                 SessionStateItems = new();
             }
+
+            NotifyStateChange();
         }
 
         public void TryPageRefresh()
