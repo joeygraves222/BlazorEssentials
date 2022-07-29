@@ -1,9 +1,85 @@
-﻿@page "/"
+﻿@inherits EssentialsBaseComponent
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h2>Test the Loading Indicator</h2>
 
-Welcome to your new app.
+<div class="container">
+    <div class="row">
+        <label class="text-center">Border Style</label>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        
+        <div class="col-md-5">
+            <label>Small</label><br />
+            <button class="btn btn-block btn-primary" @onclick="() => ShowLoader(MarkupColor.Primary, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-secondary" @onclick="() => ShowLoader(MarkupColor.Secondary, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>      <br /><br />
+            <button class="btn btn-block btn-success" @onclick="() => ShowLoader(MarkupColor.Success, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-warning" @onclick="() => ShowLoader(MarkupColor.Warning, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-danger" @onclick="() => ShowLoader(MarkupColor.Danger, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-info" @onclick="() => ShowLoader(MarkupColor.Info, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>                <br /><br />
+            <button class="btn btn-block btn-light" @onclick="() => ShowLoader(MarkupColor.Light, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>              <br /><br />
+            <button class="btn btn-block btn-dark" @onclick="() => ShowLoader(MarkupColor.Dark, LoaderStyle.Border, LoaderSize.SM)">Show Loader</button>                <br /><br />
+        </div>
+        <div class="col-md-5">
+            <label>Regular</label><br />
+            <button class="btn btn-block btn-primary" @onclick="() => ShowLoader(MarkupColor.Primary, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-secondary" @onclick="() => ShowLoader(MarkupColor.Secondary, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>      <br /><br />
+            <button class="btn btn-block btn-success" @onclick="() => ShowLoader(MarkupColor.Success, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-warning" @onclick="() => ShowLoader(MarkupColor.Warning, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>          <br /><br />
+            <button class="btn btn-block btn-danger" @onclick="() => ShowLoader(MarkupColor.Danger, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-info" @onclick="() => ShowLoader(MarkupColor.Info, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>                <br /><br />
+            <button class="btn btn-block btn-light" @onclick="() => ShowLoader(MarkupColor.Light, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>              <br /><br />
+            <button class="btn btn-block btn-dark" @onclick="() => ShowLoader(MarkupColor.Dark, LoaderStyle.Border, LoaderSize.MD)">Show Loader</button>                <br /><br />
+        </div>
+        
+        <div class="col-md-1"></div>
+    </div>
+    <hr />
+    <div class="row">
+        <label class="text-center">Grow Style</label>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        
+        <div class="col-md-5">
+            <label>Small</label><br />
+            <button class="btn btn-block btn-primary" @onclick="() => ShowLoader(MarkupColor.Primary, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-secondary" @onclick="() => ShowLoader(MarkupColor.Secondary, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>        <br /><br />
+            <button class="btn btn-block btn-success" @onclick="() => ShowLoader(MarkupColor.Success, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-warning" @onclick="() => ShowLoader(MarkupColor.Warning, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-danger" @onclick="() => ShowLoader(MarkupColor.Danger, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>              <br /><br />
+            <button class="btn btn-block btn-info" @onclick="() => ShowLoader(MarkupColor.Info, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>                  <br /><br />
+            <button class="btn btn-block btn-light" @onclick="() => ShowLoader(MarkupColor.Light, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>                <br /><br />
+            <button class="btn btn-block btn-dark" @onclick="() => ShowLoader(MarkupColor.Dark, LoaderStyle.Grow, LoaderSize.SM)">Show Loader</button>                  <br /><br />
+        </div>
+        <div class="col-md-5">
+            <label>Regular</label><br />
+            <button class="btn btn-block btn-primary" @onclick="() => ShowLoader(MarkupColor.Primary, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-secondary" @onclick="() => ShowLoader(MarkupColor.Secondary, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>        <br /><br />
+            <button class="btn btn-block btn-success" @onclick="() => ShowLoader(MarkupColor.Success, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-warning" @onclick="() => ShowLoader(MarkupColor.Warning, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>            <br /><br />
+            <button class="btn btn-block btn-danger" @onclick="() => ShowLoader(MarkupColor.Danger, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>              <br /><br />
+            <button class="btn btn-block btn-info" @onclick="() => ShowLoader(MarkupColor.Info, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>                  <br /><br />
+            <button class="btn btn-block btn-light" @onclick="() => ShowLoader(MarkupColor.Light, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>                <br /><br />
+            <button class="btn btn-block btn-dark" @onclick="() => ShowLoader(MarkupColor.Dark, LoaderStyle.Grow, LoaderSize.MD)">Show Loader</button>                  <br /><br />
+        </div>
+        
+        <div class="col-md-1"></div>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+
+    private async void ShowLoader(MarkupColor color, LoaderStyle style, LoaderSize size)
+    {
+        await JS.ShowLoader("Message Here", style, size, color);
+
+        await Task.Delay(2500);
+
+        await JS.CloseLoader();
+    }
+}

@@ -1,6 +1,7 @@
 using BlazorEssentials.Models;
 using Microsoft.JSInterop;
 using System.Text.Json;
+using BlazorEssentials.Extensions;
 
 namespace BlazorEssentials
 {
@@ -71,6 +72,33 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
+            }
+        }
+
+        public async Task ShowLoader(string Message = "Loading...", LoaderStyle Style = LoaderStyle.Border, LoaderSize Size = LoaderSize.MD, MarkupColor Color = MarkupColor.Primary)
+        {
+            try
+            {
+                string cssClasses = $"spinner-{Style.ToCSSString()} spinner-{Style.ToCSSString()}-{Size.ToCSSString()} text-{Color.ToCSSString()}";
+                var module = await moduleTask.Value;
+                await module.InvokeVoidAsync("showLoader", Message, cssClasses);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task CloseLoader()
+        {
+            try
+            {
+                var module = await moduleTask.Value;
+                await module.InvokeVoidAsync("closeLoader");
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
