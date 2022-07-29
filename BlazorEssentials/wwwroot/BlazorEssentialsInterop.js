@@ -76,3 +76,20 @@ export function SubscribeToStorageEvent(objRef) {
     StateManagerRef = objRef;
 }
 
+export function showDialogModal(modalId) {
+    var dialog = document.getElementById(modalId);
+
+    if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+    } else {
+        dialogPolyfill.registerDialog(dialog);
+        dialog.showModal();
+        //console.log("The <dialog> API is not supported by this browser");
+    }
+}
+
+export function closeDialogModal(modalId) {
+    var dialog = document.getElementById(modalId);
+
+    dialog.close();
+}

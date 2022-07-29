@@ -34,7 +34,7 @@ namespace BlazorEssentials.Models
 
         public StateService(IJSRuntime js)
         {
-            Console.WriteLine("Got to State Service Constructor...");
+            //Console.WriteLine("Got to State Service Constructor...");
             JS = js;
             interop = new(js);
             InitializeState();

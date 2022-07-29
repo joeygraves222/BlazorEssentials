@@ -18,7 +18,7 @@ namespace BlazorEssentials
         public Interop(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/BlazorEssentials/BlazorEssentialsInterop.js").AsTask());
+                "import", "./_content/Net-BlazorEssentials/BlazorEssentialsInterop.js").AsTask());
         }
 
         public async ValueTask<GeoLocation> GetGeoLocation()
@@ -47,6 +47,30 @@ namespace BlazorEssentials
             catch (Exception ex)
             {
                 return "";
+            }
+        }
+
+        public async Task ShowModalDialog(string ModalId)
+        {
+            try
+            {
+                var module = await moduleTask.Value;
+                await module.InvokeVoidAsync("showModalDialog", ModalId);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task CloseModalDialog(string ModalId)
+        {
+            try
+            {
+                var module = await moduleTask.Value;
+                await module.InvokeVoidAsync("closeModalDialog", ModalId);
+            }
+            catch (Exception ex)
+            {
             }
         }
 
