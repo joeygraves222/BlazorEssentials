@@ -93,3 +93,10 @@ export function closeDialogModal(modalId) {
 
     dialog.close();
 }
+
+export function BlazorFocusElement(element) {
+    
+    if (element instanceof HTMLElement) {
+        element.focus();
+    }
+}

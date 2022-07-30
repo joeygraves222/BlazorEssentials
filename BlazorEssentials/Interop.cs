@@ -74,6 +74,8 @@ namespace BlazorEssentials
             }
         }
 
+
+
         public async Task SetLocalStorage(string key, string item)
         {
             try

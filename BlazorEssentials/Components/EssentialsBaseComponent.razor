@@ -1,7 +1,9 @@
 ﻿@using BlazorEssentials.Models
 
-@code{
+<Dialog ModalId="BlazorEssentialsConfirmDialog"></Dialog>
 
+@code{
+    private static string ConfirmDialogID = "BlazorEssentialsConfirmDialog";
     [Inject]
     protected IStorageManager Storage { get; set; }
     [Inject]
@@ -14,4 +16,6 @@
     protected NavigationManager Nav { get; set; }
     [Inject]
     protected Interop JS { get; set; }
+
+    
 }
