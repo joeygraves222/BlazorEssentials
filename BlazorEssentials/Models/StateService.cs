@@ -72,6 +72,12 @@ namespace BlazorEssentials.Models
             NotifyStateChange();
         }
 
+        public PromptModel ConfirmPrompt
+        {
+            get { return GetStateItem<PromptModel>("ConfirmPromptData"); }
+            set { SetStateItem("ConfirmPromptData", value); }
+        }
+
         private void NotifyStateChange()
         {
             OnChange?.Invoke();
@@ -119,6 +125,58 @@ namespace BlazorEssentials.Models
 
             NotifyStateChange();
         }
+
+        public void Confirm(bool result)
+        {
+            JS.InvokeVoidAsync("closeDialogModal", "ConfirmDialog");
+            ConfirmedValue = result;
+            HasConfirmed = true;
+        }
+
+        public bool HasConfirmed { get; set; } = false;
+        public bool ConfirmedValue { get; set; }
+        public async Task<bool> PromptAsync(string Title, string Prompt, string ConfirmText = "Yes", string DenyText = "No", int? TimeoutSeconds = null)
+        {
+            DateTime StartTime = DateTime.Now;
+            HasConfirmed = false;
+
+            var prompt = new PromptModel()
+            {
+                HasConfirmed = false,
+                Title = Title,
+                Prompt = Prompt,
+                ConfirmButtonText = ConfirmText,
+                DenyButtonText = DenyText
+            };
+
+            ConfirmPrompt = prompt;
+
+            await JS.InvokeVoidAsync("showDialogModal", "ConfirmDialog");
+            NotifyStateChange();
+            while (!HasConfirmed)
+            {
+                await Task.Delay(10);
+
+                if (HasConfirmed)
+                {
+                    return ConfirmedValue;
+                }
+                else
+                {
+                    if (TimeoutSeconds.HasValue)
+                    {
+                        if ((DateTime.Now - StartTime > TimeSpan.FromSeconds(TimeoutSeconds.Value)))
+                        {
+                            JS.InvokeVoidAsync("closeDialogModal", "ConfirmDialog");
+                            
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
 
         public void TryPageRefresh()
         {
