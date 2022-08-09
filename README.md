@@ -14,7 +14,7 @@ Each of these features is defined in an interface and can be implemented however
 
 ## Implementing Each Feature
 
-First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateService` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically).This base component looks like this:
+First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateService` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically). This base component looks like this:
 
 ```
 @using BlazorEssentials.Models
