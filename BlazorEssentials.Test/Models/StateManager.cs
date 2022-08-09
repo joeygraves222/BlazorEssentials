@@ -5,7 +5,7 @@ namespace BlazorEssentials.Test.Models
 {
     public class StateManager : StateService
     {
-        public StateManager(IJSRuntime js) : base(js)
+        public StateManager(IJSRuntime js, Interop interop) : base(js, interop)
         {
         }
 

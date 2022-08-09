@@ -8,7 +8,7 @@ namespace BlazorEssentials.Models
 {
     public class PromptModel
     {
-        public bool HasConfirmed { get; set; }
+        public int MaxTimeout { get; set; } = 0;
         public string Title { get; set; }
         public string Prompt { get; set; }
         public string ConfirmButtonText { get; set; }

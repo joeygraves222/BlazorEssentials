@@ -70,6 +70,7 @@
         <div class="col-md-1"></div>
     </div>
 </div>
+<button @onclick="StartPrompt" class="btn btn-outline-success">Start Prompt</button>
 
 
 @code{
@@ -81,5 +82,26 @@
         await Task.Delay(2500);
 
         await JS.CloseLoader();
+    }
+
+    private string PromptTitle { get; set; } = "Test Prompt Title";
+    private string PromptText { get; set; } = "Some test text for the prompt body";
+    private string ConfirmBtnText { get; set; } = "Yes";
+    private string DenyBtnText { get; set; } = "No";
+
+    private async void StartPrompt()
+    {
+        var model = new PromptModel()
+        {
+            Prompt = PromptText,
+            Title = PromptTitle,
+            ConfirmButtonText = ConfirmBtnText,
+            DenyButtonText = DenyBtnText,
+            MaxTimeout = 10000
+        };
+        Console.Out.WriteLine("Model Created...");
+        var result = await JS.ConfirmAsync(model);
+
+        Console.Out.WriteLine(result);
     }
 }

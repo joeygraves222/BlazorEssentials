@@ -38,8 +38,11 @@
 
 
 <dialog id="@ModalId">
-    <H3>@Title</H3>
-    <hr />
+    @if (!String.IsNullOrEmpty(Title))
+    {
+        <h3>@Title</h3>
+        <hr />
+    }
     <div class="dialog-container">
         <div style="@((MarkupString)(MinWidth.HasValue ? "min-width: " + MinWidth.Value + "px;" : "")) @((MarkupString)(MaxWidth.HasValue ? "max-width: " + MaxWidth.Value + "px;" : ""))">
             @Body

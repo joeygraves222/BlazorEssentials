@@ -19,11 +19,9 @@
 
     private async void AddToLocal()
     {
-        var store = await PromptAsync("Store Data?", "Are you sure you would like to store this data?", "Yes Store It", "Nevermind", 60000);
-        if (store)
-        {
+        
             await Storage.SetLocalAsync(KeyToStore, TextToStore);
-        }
+        
     }
 
     private async void AddToSession()

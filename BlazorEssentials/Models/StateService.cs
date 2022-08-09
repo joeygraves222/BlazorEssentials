@@ -14,6 +14,7 @@ namespace BlazorEssentials.Models
         public void SetStateItem<T>(string key, T value);
         public T GetPersistentStateItem<T>(string key);
         public void SetPersistentStateItem<T>(string key, T value);
+
         public event Action OnChange;
         public event Action OnChangeFromOtherTab;
         public event Action RefreshPage;
@@ -21,8 +22,11 @@ namespace BlazorEssentials.Models
     public class StateService : IStateService
     {
         private static string StateKey = "{EC2E66F0-0148-4B75-A2B7-96C2FAD9F200}";
+        
         private Dictionary<string, string> PersistentStateItems { get; set; }
         private Dictionary<string, string> SessionStateItems { get; set; }
+
+        
 
         public event Action OnChange;
         public event Action RefreshPage;
@@ -32,11 +36,11 @@ namespace BlazorEssentials.Models
         private Interop interop { get; set; }
 
 
-        public StateService(IJSRuntime js)
+        public StateService(IJSRuntime js, Interop _interop)
         {
             //Console.WriteLine("Got to State Service Constructor...");
             JS = js;
-            interop = new(js);
+            interop = _interop;
             InitializeState();
 
             //var dotnetRef = DotNetObjectReference.Create(this);
@@ -72,11 +76,7 @@ namespace BlazorEssentials.Models
             NotifyStateChange();
         }
 
-        public PromptModel ConfirmPrompt
-        {
-            get { return GetStateItem<PromptModel>("ConfirmPromptData"); }
-            set { SetStateItem("ConfirmPromptData", value); }
-        }
+        
 
         private void NotifyStateChange()
         {
@@ -126,58 +126,6 @@ namespace BlazorEssentials.Models
             NotifyStateChange();
         }
 
-        public void Confirm(bool result)
-        {
-            JS.InvokeVoidAsync("closeDialogModal", "ConfirmDialog");
-            ConfirmedValue = result;
-            HasConfirmed = true;
-        }
-
-        public bool HasConfirmed { get; set; } = false;
-        public bool ConfirmedValue { get; set; }
-        public async Task<bool> PromptAsync(string Title, string Prompt, string ConfirmText = "Yes", string DenyText = "No", int? TimeoutSeconds = null)
-        {
-            DateTime StartTime = DateTime.Now;
-            HasConfirmed = false;
-
-            var prompt = new PromptModel()
-            {
-                HasConfirmed = false,
-                Title = Title,
-                Prompt = Prompt,
-                ConfirmButtonText = ConfirmText,
-                DenyButtonText = DenyText
-            };
-
-            ConfirmPrompt = prompt;
-
-            await JS.InvokeVoidAsync("showDialogModal", "ConfirmDialog");
-            NotifyStateChange();
-            while (!HasConfirmed)
-            {
-                await Task.Delay(10);
-
-                if (HasConfirmed)
-                {
-                    return ConfirmedValue;
-                }
-                else
-                {
-                    if (TimeoutSeconds.HasValue)
-                    {
-                        if ((DateTime.Now - StartTime > TimeSpan.FromSeconds(TimeoutSeconds.Value)))
-                        {
-                            JS.InvokeVoidAsync("closeDialogModal", "ConfirmDialog");
-                            
-                            return false;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-
         public void TryPageRefresh()
         {
             RefreshPage?.Invoke();
@@ -211,5 +159,7 @@ namespace BlazorEssentials.Models
             }
             NotifyStateChange();
         }
+
+      
     }
 }

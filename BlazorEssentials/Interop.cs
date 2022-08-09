@@ -34,6 +34,7 @@ namespace BlazorEssentials
             }
             catch(Exception ex)
             {
+                Console.Out.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -47,7 +48,22 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
+                Console.Out.WriteLine(ex.Message);
                 return "";
+            }
+        }
+
+        public async Task<bool> ConfirmAsync(PromptModel prompt)
+        {
+            try
+            {
+                var module = await moduleTask.Value;
+                return await module.InvokeAsync<bool>("confirmAsync", prompt);
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -56,10 +72,11 @@ namespace BlazorEssentials
             try
             {
                 var module = await moduleTask.Value;
-                await module.InvokeVoidAsync("showModalDialog", ModalId);
+                await module.InvokeVoidAsync("showDialogModal", ModalId);
             }
             catch (Exception ex)
             {
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -68,10 +85,11 @@ namespace BlazorEssentials
             try
             {
                 var module = await moduleTask.Value;
-                await module.InvokeVoidAsync("closeModalDialog", ModalId);
+                await module.InvokeVoidAsync("closeDialogModal", ModalId);
             }
             catch (Exception ex)
             {
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -85,7 +103,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -98,7 +116,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -113,7 +131,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-                
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -126,7 +144,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -139,7 +157,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -152,6 +170,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
+                Console.Out.WriteLine(ex.Message);
                 return "";
             }
         }
@@ -165,7 +184,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -178,7 +197,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -191,7 +210,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
@@ -204,7 +223,7 @@ namespace BlazorEssentials
             }
             catch (Exception ex)
             {
-
+                Console.Out.WriteLine(ex.Message);
             }
         }
 
