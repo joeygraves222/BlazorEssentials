@@ -5,6 +5,7 @@ let LoaderId = 'AB68B71D93414BF3BB3BE8C9FC191B4A';
 let ConfirmDialogCSSId = '0992F0948AA990AA71618E7A2C';
 let LoaderCSSId = '6353788E7A2C48AA990AA71610992F09635378';
 let loaderCSS = "#" + LoaderId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + LoaderId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + LoaderId + " {background-color: #454d55;color: white;} #" + LoaderId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;align-items: center;width: 100 %;margin-top: 10px;} ";
+let ConfirmDialogCSS = "#" + ConfirmDialogId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + ConfirmDialogId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + ConfirmDialogId + " {background-color: #454d55;color: white;} #" + ConfirmDialogId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;align-items: center;width: 100 %;margin-top: 10px;} ";
 
 let ConfirmResult = undefined;
 
@@ -160,14 +161,14 @@ export function closeLoader() {
     document.body.removeChild(dialog);
 }
 
-export function confirmAsync(promptModel) {
-
+export async function confirmAsync(promptModel) {
+    console.log(promptModel);
     var dialog = document.createElement('dialog');
     dialog.id = ConfirmDialogId;
 
     var dialogCSS = document.createElement('style');
     dialogCSS.id = ConfirmDialogCSSId;
-    dialogCSS.innerHTML = loaderCSS;
+    dialogCSS.innerHTML = ConfirmDialogCSS;
 
     var dialogContainer = document.createElement('div');
     dialogContainer.setAttribute('class', "dialog-container");
@@ -179,20 +180,45 @@ export function confirmAsync(promptModel) {
     titleContainer.setAttribute('class', "d-flex justify-content-center flex-column align-items-center");
 
     var title = document.createElement('h3');
-    title.textContent = promptModel.Title;
+    title.textContent = promptModel.title;
 
     var messageContainer = document.createElement('div');
     messageContainer.setAttribute('class', "d-flex justify-content-center mt-4");
-    messageContainer.textContent = promptModel.Prompt;
+    messageContainer.textContent = promptModel.prompt;
+
+    var btnsContainer = document.createElement('div');
+    btnsContainer.setAttribute('class', 'dialog-buttons-container');
+    btnsContainer.setAttribute('style', 'max-width: 300px; min-width: 200px;');
+
+    var confirmBtn = document.createElement('button');
+    confirmBtn.setAttribute('type', 'button');
+    confirmBtn.setAttribute('class', 'btn btn-block btn-outline-success');
+    confirmBtn.textContent = promptModel.confirmButtonText;
+    confirmBtn.addEventListener('click', () => {
+        ConfirmResult = true;
+    });
+
+    var denyBtn = document.createElement('button');
+    denyBtn.setAttribute('type', 'button');
+    denyBtn.setAttribute('class', 'btn btn-block btn-outline-danger');
+    denyBtn.textContent = promptModel.denyButtonText;
+    denyBtn.addEventListener('click', () => {
+        ConfirmResult = false;
+    });
+
+    btnsContainer.appendChild(confirmBtn);
+    btnsContainer.appendChild(denyBtn);
 
     //
     //  Add buttons container and set onclick methods to set the ConfirmedValue which will break the waiting loop
     //
 
-    titleContainer.appendChild(title);
-    promptContent.appendChild(titleContainer).appendChild(document.createElement('hr').appendChild(messageContainer);
+    dialog.appendChild(title);
+    dialog.appendChild(document.createElement('hr'));
+    promptContent.appendChild(messageContainer);
     dialogContainer.appendChild(promptContent);
     dialog.appendChild(dialogContainer);
+    dialog.appendChild(btnsContainer);
 
     document.body.appendChild(dialogCSS);
     document.body.appendChild(dialog);
@@ -203,6 +229,20 @@ export function confirmAsync(promptModel) {
         dialogPolyfill.registerDialog(dialog);
         dialog.showModal();
     }
+
+    ConfirmResult = undefined;
+    var startMiliseconds = 0;
+    while (ConfirmResult == undefined) {
+        await delay(1);
+        startMiliseconds++;
+
+        if (promptModel.maxTimeout > 0) {
+            if (startMiliseconds >= promptModel.maxTimeout) {
+                return false;
+            }
+        }
+    }
+    return ConfirmResult;
 }
 
 //

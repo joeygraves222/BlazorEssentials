@@ -58,6 +58,8 @@ namespace BlazorEssentials
             try
             {
                 var module = await moduleTask.Value;
+                Console.Out.WriteLine(prompt);
+                Console.Out.WriteLine(JsonSerializer.Serialize(prompt));
                 return await module.InvokeAsync<bool>("confirmAsync", prompt);
             }
             catch (Exception ex)
