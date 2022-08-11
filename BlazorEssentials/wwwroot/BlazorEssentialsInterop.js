@@ -1,11 +1,11 @@
 let GeolocationResult = null;
 let StateManagerRef = null;
-let ConfirmDialogId = '9FC191B4A4BF3BB3BE8C1D9341AB68B7';
-let LoaderId = 'AB68B71D93414BF3BB3BE8C9FC191B4A';
-let ConfirmDialogCSSId = '0992F0948AA990AA71618E7A2C';
-let LoaderCSSId = '6353788E7A2C48AA990AA71610992F09635378';
-let loaderCSS = "#" + LoaderId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + LoaderId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + LoaderId + " {background-color: #454d55;color: white;} #" + LoaderId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;align-items: center;width: 100 %;margin-top: 10px;} ";
-let ConfirmDialogCSS = "#" + ConfirmDialogId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + ConfirmDialogId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + ConfirmDialogId + " {background-color: #454d55;color: white;} #" + ConfirmDialogId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;align-items: center;width: 100 %;margin-top: 10px;} ";
+let ConfirmDialogId = 'IDGFC191B4A4BF3BB3BE8C1D9341AB68B7';
+let LoaderId = 'IDAB68B71D93414BF3BB3BE8C9FC191B4A';
+let ConfirmDialogCSSId = 'IDG992F0948AA990AA71618E7A2C';
+let LoaderCSSId = 'IDG353788E7A2C48AA990AA71610992F09635378';
+let loaderCSS = "#" + LoaderId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + LoaderId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + LoaderId + " {background-color: #454d55;color: white;} #" + LoaderId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;width: 100 %;margin-top: 20px;} .dialog-title{text-align: center;} ";
+let ConfirmDialogCSS = "#" + ConfirmDialogId + "::backdrop { background: rgba(104, 104, 104, .75);} #" + ConfirmDialogId + "{background-color: white;border: none;border-radius: 10px;padding: 20px;} .dark-mode #" + ConfirmDialogId + " {background-color: #454d55;color: white;} #" + ConfirmDialogId + " h3{width: 100 %;text-align: center;} .dialog-container{display: flex;flex-direction: column;justify-content: space-between;align-items: center;} .dialog-buttons-container {display: flex;flex-direction: column;justify-content: space-evenly;width: 100 %;margin-top: 20px;} .dialog-title{text-align: center;}";
 
 let ConfirmResult = undefined;
 
@@ -180,6 +180,7 @@ export async function confirmAsync(promptModel) {
     titleContainer.setAttribute('class', "d-flex justify-content-center flex-column align-items-center");
 
     var title = document.createElement('h3');
+    title.setAttribute('class', 'dialog-title');
     title.textContent = promptModel.title;
 
     var messageContainer = document.createElement('div');
