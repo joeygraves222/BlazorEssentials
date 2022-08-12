@@ -2,6 +2,7 @@ using BlazorEssentials.Models;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using BlazorEssentials.Extensions;
+using BlazorEssentials.Enums;
 
 namespace BlazorEssentials
 {
@@ -58,8 +59,6 @@ namespace BlazorEssentials
             try
             {
                 var module = await moduleTask.Value;
-                Console.Out.WriteLine(prompt);
-                Console.Out.WriteLine(JsonSerializer.Serialize(prompt));
                 return await module.InvokeAsync<bool>("confirmAsync", prompt);
             }
             catch (Exception ex)
@@ -236,6 +235,29 @@ namespace BlazorEssentials
                 var module = await moduleTask.Value;
                 await module.DisposeAsync();
             }
+        }
+
+        public async Task<ClientDeviceType> GetDeviceType()
+        {
+            var module = await moduleTask.Value;
+            var mobile = await module.InvokeAsync<bool>("isDevice");
+
+            return mobile ? ClientDeviceType.Mobile : ClientDeviceType.Desktop;
+        }
+
+        public async Task<ClientUserAgent> GetUserAgent()
+        {
+            var module = await moduleTask.Value;
+            var response = await module.InvokeAsync<string>("getUserAgent");
+
+            ClientUserAgent ua = new ClientUserAgent();
+            return ua.TryParse(response);
+        }
+
+        public async void CopyToClipboard(string textToCopy)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("clipboardCopy", textToCopy);
         }
     }
 }

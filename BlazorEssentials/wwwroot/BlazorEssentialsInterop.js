@@ -162,7 +162,6 @@ export function closeLoader() {
 }
 
 export async function confirmAsync(promptModel) {
-    console.log(promptModel);
     var dialog = document.createElement('dialog');
     dialog.id = ConfirmDialogId;
 
@@ -193,9 +192,12 @@ export async function confirmAsync(promptModel) {
 
     var confirmBtn = document.createElement('button');
     confirmBtn.setAttribute('type', 'button');
-    confirmBtn.setAttribute('class', 'btn btn-block btn-outline-success');
+    confirmBtn.setAttribute('class', 'btn btn-block btn-outline-success mb-2');
     confirmBtn.textContent = promptModel.confirmButtonText;
     confirmBtn.addEventListener('click', () => {
+        dialog.close();
+        document.body.removeChild(dialogCSS);
+        document.body.removeChild(dialog);
         ConfirmResult = true;
     });
 
@@ -204,6 +206,9 @@ export async function confirmAsync(promptModel) {
     denyBtn.setAttribute('class', 'btn btn-block btn-outline-danger');
     denyBtn.textContent = promptModel.denyButtonText;
     denyBtn.addEventListener('click', () => {
+        dialog.close();
+        document.body.removeChild(dialogCSS);
+        document.body.removeChild(dialog);
         ConfirmResult = false;
     });
 
@@ -245,6 +250,19 @@ export async function confirmAsync(promptModel) {
     }
     return ConfirmResult;
 }
+
+export function clipboardCopy (text) {
+        navigator.clipboard.writeText(text).then(function () { }).catch(function (error) { });
+}
+
+export function isDevice() {
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+}
+
+export function getUserAgent() {
+    return navigator.userAgent;
+}
+
 
 //
 //

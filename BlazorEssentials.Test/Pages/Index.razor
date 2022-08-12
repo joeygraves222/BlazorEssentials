@@ -69,8 +69,48 @@
         
         <div class="col-md-1"></div>
     </div>
+    <hr />
+    <div class="row mb-5">
+        <label class="text-center">Confirm Prompt</label>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-5">
+            <div class="formgroup">
+                <label class="control-label">Prompt Title</label>
+                <input class="form-control" @bind="PromptTitle" />
+            </div>
+            <div class="formgroup">
+                <label class="control-label">Prompt Message</label>
+                <textarea class="form-control" @bind="PromptText" rows="3"></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="formgroup">
+                <label class="control-label">Confirm Button Text</label>
+                <input class="form-control" @bind="ConfirmBtnText" />
+            </div>
+            <div class="formgroup">
+                <label class="control-label">Deny Button Text</label>
+                <input class="form-control" @bind="DenyBtnText" />
+            </div>
+        </div>
+
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+            <button @onclick="StartPrompt" class="btn btn-block btn-outline-success">Start Prompt</button>
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
 </div>
-<button @onclick="StartPrompt" class="btn btn-outline-success">Start Prompt</button>
+
 
 
 @code{
@@ -99,7 +139,6 @@
             DenyButtonText = DenyBtnText,
             MaxTimeout = 10000
         };
-        Console.Out.WriteLine("Model Created...");
         var result = await JS.ConfirmAsync(model);
 
         Console.Out.WriteLine(result);
