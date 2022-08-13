@@ -111,10 +111,21 @@
     </div>
 </div>
 
+<Dialog @ref="TestDialog" MaxWidth="800" MinWidth="200" Title="This is a test Dialog">
+    <Body>
+        <div class="row">
+            <h5>This is the body of the Dialog</h5>
+        </div>
+    </Body>
+    <Buttons>
+        <button class="btn btn-block btn-outline-success" @onclick="() => TestDialog.CloseModal()">Close</button>
+    </Buttons>
+</Dialog>
 
 
 @code{
 
+    private Dialog TestDialog { get; set; }
     private async void ShowLoader(MarkupColor color, LoaderStyle style, LoaderSize size)
     {
         await JS.ShowLoader("Message Here", style, size, color);
@@ -122,6 +133,8 @@
         await Task.Delay(2500);
 
         await JS.CloseLoader();
+
+        
     }
 
     private string PromptTitle { get; set; } = "Test Prompt Title";

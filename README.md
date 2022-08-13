@@ -1,8 +1,9 @@
 # BlazorEssentials
 ## Introduction
 
-Tha latest version of this package includes the following features:
+Each version of this package includes the following features:
 
+### Version 1.1.1
 - Storage
   - LocalStorage
   - SessionStorage
@@ -10,9 +11,21 @@ Tha latest version of this package includes the following features:
 - Geolocation
 - Basic Authentication and Authorization
 
-Each of these features is defined in an interface and can be implemented however you would like, however a simple implementation is also provided that takes care of many basic functions. 
+### Version 1.2.1
+- Loading Indicator
+- Awaitable Prompt
+- Modal Dialog
+- Copy to Clipboard
+- Client Device Info
+  - Client OS
+  - Client Architecture (32 or 64 bit)
+  - Client Device Type (Mobile or Desktop/Laptop)
+
 
 ## Implementing Each Feature
+
+
+## Version 1.1.1
 
 First it should be mentioned that it is recommended that every page and component that will need to access these features should inherit the class `EssentialsBaseComponent` found in this package under the namespace `BlazorEssentials.Components`. This base component has provided members to access these services and to subscribe to their events to update your page when necessary. (ex. The `StateService` fires an event every time the state is updated, and the base component subscribes to the event and calls `StateHasChanged()` so that you don't have to call it yourself, you simply update your State and the components will refresh automatically). This base component looks like this:
 
@@ -193,3 +206,82 @@ Notice the class `StateManager` inherits `StateService` rather than implementing
 The State Service has methods that will persist the State variables to the LocalStorage, and to the SessionStorage, these help because they allow your users to navigate away from the page without losing their progress. Since the State Service is registered as a Scoped Service it is alive for the duration of the request, and is also the same instance across all components. So you can easily pass data from page to page without the need for route parameters. There are still times when you might want to use route parameters, but you don't need them because you could always just store the parameters in a State object, and then retrieve the State object when the next page loads.
 
 To inject the default services into the Dependency Injection Container, call the method `builder.Services.AddBlazorEssentials("https://localhost:5000/api")` in the `Program.cs` file. This URL that is passed into the method sets the base URL on the `HttpClient`. This will provide the default services for `IStorageManager`, `ILocationService`, `Interop` (The JSInterop class for all things regarding Blazor Essentials), the `HttpClient` with the provided BaseURL, and the `IAuthService`. If you would like to manually implement any of these then don't call this method, and instead provide each of these manually in the `Program.cs` file. The StateService that you create should be added in the same place like this `builder.Services.AddScoped<StateManager>();` with your implementation in plcae of `StateManager`.
+
+## Version 1.2.1
+All of these features have been added into the JavaScript Interop class. This is available in the `EssentialsBaseComponent`. If your component inherits this class, then you can use these features. Simply call them on the `JS` object in the base component
+### Loading Indicator
+
+This is accessed via the `JS.ShowLoader()` method. It has 4 optional parameters:
+- Message (string)
+- Style (enum, spinning indicator or a growing ball)
+- Size (enum, small or medium sized indicator)
+- Color (enum, the color of the indicator)
+
+### Awaitable Prompt
+
+This is accessed via the `JS.ConfirmAsync()` method, it returns a `Task<bool>`. It takes a single parameter of the following type:
+```
+    public class PromptModel
+    {
+        public int MaxTimeout { get; set; } = 0;
+        public string Title { get; set; }
+        public string Prompt { get; set; }
+        public string ConfirmButtonText { get; set; }
+        public string DenyButtonText { get; set; }
+
+    }
+
+``` 
+If the timeout is left at 0 then the prompt will wait until it receives a response, otherwise the method will return a false after the timeout period.
+
+### Modal Dialog
+This is an actual component that you can use in your `.razor` files. It needs to have both the `MaxWidth` and `MinWidth` attributes (each are an int that correlate to a pixel amount) set to show up. Here is an example:
+
+```
+<Dialog @ref="TestDialog" MaxWidth="800" MinWidth="200" Title="This is a test Dialog">
+    <Body>
+        <div class="row">
+            <h5>This is the body of the Dialog</h5>
+        </div>
+    </Body>
+    <Buttons>
+        <button class="btn btn-block btn-outline-success" @onclick="() => TestDialog.CloseModal()">Close</button>
+    </Buttons>
+</Dialog>
+
+@code{
+
+private Dialog TestDialog { get; set; }
+
+// To open the dialog, call TestDialog.ShowModal();
+
+}
+
+```
+
+### Copy to Clipboard
+This is accessed via the `JS.CopyToClipboard()` method. It takes a single string parameter containing the text to copy to the clipboard. There are more features to this that I intend to add in future updates, such as copying images, but at this time it can only copy plain text to the clipboard.
+
+### Client Device Info
+This is accessed via the `JS.GetDeviceType()` and `JS.GetUserAgent()` methods. Neither take any parameters and each return (respectively) an enum of type:
+```
+public enum ClientDeviceType
+    {
+        Mobile,
+        Desktop
+    }
+```
+and an object of type:
+```
+public class ClientUserAgent
+{
+    public string AppInfo { get; set; }
+    public string PlatformInfo { get; set; }
+    public string ProductInfo { get; set; }
+    public string ApplicationNameInfo { get; set; }
+    public OSType GetOSType() {...} // Returns an enum
+    public ArchitectureType GetArchitectureType() {...} // Returns an enum
+}
+```
+
+  
