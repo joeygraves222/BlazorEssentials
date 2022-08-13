@@ -173,7 +173,7 @@ export async function confirmAsync(promptModel) {
     dialogContainer.setAttribute('class', "dialog-container");
 
     var promptContent = document.createElement('div');
-    promptContent.setAttribute('style', "max-width: 300px; min-width: 200px;");
+    promptContent.setAttribute('style', "max-width: 800px; min-width: 200px;");
 
     var titleContainer = document.createElement('div');
     titleContainer.setAttribute('class', "d-flex justify-content-center flex-column align-items-center");
@@ -188,7 +188,7 @@ export async function confirmAsync(promptModel) {
 
     var btnsContainer = document.createElement('div');
     btnsContainer.setAttribute('class', 'dialog-buttons-container');
-    btnsContainer.setAttribute('style', 'max-width: 300px; min-width: 200px;');
+    btnsContainer.setAttribute('style', 'max-width: 800px; min-width: 200px;');
 
     var confirmBtn = document.createElement('button');
     confirmBtn.setAttribute('type', 'button');
