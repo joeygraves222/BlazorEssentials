@@ -1,6 +1,10 @@
 # BlazorEssentials
 ## Introduction
 
+### Known Issues
+- Currently the `LocationService` doesn't work in a .NET MAUI Blazor Hybrid Application. I am currently working on another package to bridge that gap. It will be called Net-BlazorEssentialsMaui and should be ready soon. The issue here is that not all of the WebView components used by Blazor Hybrid applications support Geolocation. The new package will also include a new service extension to add the services and will be used the same way except that instead you would call `builder.Services.AddBlazorEssentialsMaui("https://localhost:5000/api")` instead of `builder.Services.AddBlazorEssentials("https://localhost:5000/api")`.
+
+
 Each version of this package includes the following features:
 
 ### Version 1.1.1
