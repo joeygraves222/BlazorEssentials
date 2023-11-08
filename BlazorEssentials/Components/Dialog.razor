@@ -1,5 +1,4 @@
 ﻿@inherits EssentialsBaseComponent
-
 <style>
     @((MarkupString)("#" + ModalId))::backdrop {
         background: rgba(104,104,104,.75);
@@ -38,6 +37,10 @@
     {
         text-align: center;
     }
+
+    .dialog-buttons-container > button:not(:first-child) {
+            margin-top: 10px;
+        }
 </style>
 
 

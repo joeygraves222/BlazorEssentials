@@ -12,11 +12,11 @@ namespace BlazorEssentials.Extensions
     {
         public static IServiceCollection AddBlazorEssentials(this IServiceCollection services, string BaseURL)
         {
-            services.AddScoped<IStorageManager, StorageManager>();
-            services.AddScoped<ILocationService, LocationService>();
+            //services.AddScoped<IStorageManager, StorageManager>();
+            //services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<Interop>();
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(BaseURL) });
-            services.AddScoped<IAuthService, AuthService>();
+            //services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
