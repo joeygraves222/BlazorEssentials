@@ -3,6 +3,16 @@
 
 @code{
     [Inject]
+    protected IStorageManager Storage { get; set; }
+    [Inject]
+    protected ILocationService GeoLocationService { get; set; }
+    [Inject]
+    protected HttpClient Http { get; set; }
+    [Inject]
+    protected IAuthService Auth { get; set; }
+    [Inject]
+    protected NavigationManager Nav { get; set; }
+    [Inject]
     protected Interop JS { get; set; }
     
 

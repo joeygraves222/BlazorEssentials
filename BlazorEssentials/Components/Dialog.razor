@@ -1,4 +1,4 @@
-﻿@inherits EssentialsBaseComponent
+﻿
 <style>
     @((MarkupString)("#" + ModalId))::backdrop {
         background: rgba(104,104,104,.75);
@@ -81,6 +81,9 @@
 
     [Parameter]
     public int? MaxWidth { get; set; } = 500;
+
+    [Inject]
+    private Interop JS { get; set; }
 
 
     public async void ShowModal()
